@@ -6,8 +6,8 @@
  */
 
 #include <SPI.h>
-#include <Ethernet.h>
-#include <EthernetUdp.h>
+#include <Ethernet2.h>
+#include <EthernetUdp2.h>
 #include <SD.h>
 
 #define TAPE_INTERVAL_DISTANCE   30480  // mm
