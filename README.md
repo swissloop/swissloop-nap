@@ -9,3 +9,5 @@ You can view the received messages with netcat for example:
 ```bash
 nc -u -l 1338
 ```
+
+If an SD card is inserted into the Ethernet shield, the data is also logged to a file called **log.txt**.
