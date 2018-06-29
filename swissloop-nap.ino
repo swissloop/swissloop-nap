@@ -8,6 +8,7 @@
 #include <SPI.h>
 #include <Ethernet.h>
 #include <EthernetUdp.h>
+#include <SD.h>
 
 #define TAPE_INTERVAL_DISTANCE   30480  // mm
 
@@ -24,6 +25,9 @@ const unsigned int remote_port = 1338;
 
 EthernetUDP Udp;
 bool using_network = false;
+
+File file;
+bool using_sd_card = true;
 
 volatile unsigned long time_left = 0;
 volatile unsigned long time_right = 0;
@@ -67,12 +71,18 @@ int nav_calc_velocity_tape(unsigned long time_diff)
 
 void setup() {
 
+  // Configure serial
+  Serial.begin(9600);
+  
   // Configure ethernet
   Ethernet.begin(mac, ip);
   Udp.begin(1337);
 
-  // Configure serial
-  Serial.begin(9600);
+  // Configure SD card
+  if (!SD.begin(4)) {
+    Serial.println("SD card missing!");
+    using_sd_card = false;
+  }
 
   // Configure GPIO
   pinMode(PIN_LEFT, INPUT);
@@ -139,6 +149,13 @@ void loop() {
       Udp.beginPacket(remote_ip, remote_port);
       Udp.write(string);
       Udp.endPacket();
+    }
+
+    // Store the string to the SD card
+    if (using_sd_card &&
+          (file = SD.open("log.txt", FILE_WRITE))) {
+      file.print(string);
+      file.close();
     }
 
   }
