@@ -21,7 +21,7 @@ byte mac[] = {
 IPAddress ip(192, 168, 0, 8);
 
 const IPAddress remote_ip(192, 168, 0, 7);
-const unsigned int remote_port = 1338;
+const unsigned int remote_port = 1340;
 
 EthernetUDP Udp;
 bool using_network = false;
@@ -76,7 +76,7 @@ void setup() {
   
   // Configure ethernet
   Ethernet.begin(mac, ip);
-  Udp.begin(1337);
+  Udp.begin(1339);
 
   // Configure SD card
   if (!SD.begin(4)) {
